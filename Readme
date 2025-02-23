@@ -1,0 +1,210 @@
+# Python入门教程：猜数字游戏 🎮
+
+> 一个适合Python初学者的互动游戏项目，通过实践学习Python基础知识
+
+## 📚 项目概述
+
+通过构建一个简单但功能完整的猜数字游戏，我们将学习以下Python核心概念：
+
+* 变量与数据类型的使用方法
+* 基本的输入输出操作
+* 条件判断语句的应用
+* 循环结构的实现
+* 随机数的生成与处理
+
+## 🛠️ 开发环境准备
+
+### Python安装
+
+1. 访问 [Python官网](https://www.python.org/downloads/) 下载最新版本(推荐3.10+)
+2. 完成安装后，在终端中验证：
+
+```bash
+python --version
+# 预期输出：Python 3.10.6
+```
+
+### 开发工具选择
+
+推荐以下任一编辑器：
+
+* **VS Code** + Python插件
+  * 轻量级，扩展性强
+  * [下载链接](https://code.visualstudio.com/)
+
+* **PyCharm社区版**
+  * 功能完整的IDE
+  * [下载链接](https://www.jetbrains.com/pycharm/)
+
+## 🚀 详细实现步骤
+
+### 1️⃣ 生成随机数
+
+```python
+import random
+
+# 生成1-100的随机整数
+secret_number = random.randint(1, 100)
+print("已生成神秘数字（开发者模式）:", secret_number)
+```
+
+### 2️⃣ 处理用户输入
+
+```python
+# 获取并验证用户输入
+try:
+    guess = int(input("请输入1-100之间的整数："))
+except ValueError:
+    print("错误：请输入有效数字！")
+    exit()
+```
+
+### 3️⃣ 实现判断逻辑
+
+```python
+if guess == secret_number:
+    print("🎉 恭喜你猜中了！")
+elif guess < secret_number:
+    print("⬆️ 猜小了，再试一次！")
+else:
+    print("⬇️ 猜大了，再试一次！")
+```
+
+### 4️⃣ 添加游戏循环
+
+```python
+attempts = 0
+max_attempts = 5
+
+print("=== 猜数字游戏 ===")
+print(f"你有 {max_attempts} 次机会")
+
+while attempts < max_attempts:
+    # 合并步骤2和步骤3的代码
+    attempts += 1
+    remaining = max_attempts - attempts
+    print(f"剩余次数：{remaining}")
+    
+    if guess == secret_number:
+        break
+
+if attempts == max_attempts:
+    print(f"💔 游戏结束，正确答案是 {secret_number}")
+```
+
+### 5️⃣ 完整优化代码
+
+```python
+import random
+
+def number_guessing_game():
+    secret_number = random.randint(1, 100)
+    max_attempts = 5
+    attempts = 0
+    
+    print("=== 猜数字游戏 ===")
+    print(f"你有 {max_attempts} 次机会猜出1-100之间的神秘数字")
+    
+    while attempts < max_attempts:
+        try:
+            guess = int(input("\n请输入你的猜测："))
+        except ValueError:
+            print("⚠️ 请输入有效整数！")
+            continue
+        
+        if guess < 1 or guess > 100:
+            print("⚠️ 数字必须在1-100之间！")
+            continue
+        
+        attempts += 1
+        
+        if guess == secret_number:
+            print(f"🎉 正确！你在第 {attempts} 次猜中了")
+            break
+        elif guess < secret_number:
+            print("⬆️ 猜小了")
+        else:
+            print("⬇️ 猜大了")
+        
+        remaining = max_attempts - attempts
+        print(f"剩余尝试次数：{remaining}")
+    
+    else:
+        print(f"\n💔 游戏结束，正确答案是 {secret_number}")
+
+if __name__ == "__main__":
+    number_guessing_game()
+```
+
+## 🎮 运行效果展示
+
+```bash
+=== 猜数字游戏 ===
+你有 5 次机会猜出1-100之间的神秘数字
+
+请输入你的猜测：50
+⬇️ 猜大了
+剩余尝试次数：4
+
+请输入你的猜测：25
+⬆️ 猜小了
+剩余尝试次数：3
+
+请输入你的猜测：37
+⬆️ 猜小了
+剩余尝试次数：2
+
+请输入你的猜测：44
+⬇️ 猜大了
+剩余尝试次数：1
+
+请输入你的猜测：40
+🎉 正确！你在第 5 次猜中了
+```
+
+## 💡 进阶优化建议
+
+### 1. 难度级别选择
+
+```python
+difficulty = input("选择难度（简单/普通/困难）：")
+if difficulty == "简单":
+    max_attempts = 10
+elif difficulty == "困难":
+    max_attempts = 3
+```
+
+### 2. 计分系统实现
+
+```python
+score = max_attempts - attempts + 1
+print(f"获得 {score} 分")
+```
+
+### 3. 游戏记录保存
+
+```python
+with open("game_log.txt", "a") as f:
+    f.write(f"神秘数字:{secret_number} 尝试次数:{attempts}\n")
+```
+
+## 📝 知识要点总结
+
+| 概念 | 示例代码 | 重要程度 |
+|------|----------|----------|
+| 模块导入 | `import random` | ⭐⭐⭐ |
+| 类型转换 | `int(guess)` | ⭐⭐⭐ |
+| 异常处理 | `try...except` | ⭐⭐⭐ |
+| 循环控制 | `while...break` | ⭐⭐⭐ |
+| 函数封装 | `def game():` | ⭐⭐ |
+
+## 🔍 小贴士
+
+* 按 `F5` 在VS Code中运行脚本
+* 使用 `Ctrl + C` 可随时终止程序
+* 建议先理解每个步骤后再尝试完整代码
+* 可以通过修改参数来自定义游戏难度
+
+---
+
+> 🎯 通过这个简单的游戏项目，你已经掌握了Python编程的多个基础概念。尝试运行代码，并思考如何进一步改进它！
